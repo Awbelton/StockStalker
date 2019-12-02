@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Stock Stalker - Stalk Your Favorite Stocks.
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="welcome-card">
+      <img src="./assets/shapes.svg" alt="" />
+      <ion-card-header>
+        <ion-card-subtitle>Welcome to Stock Stalker</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content class="main">
+        <app-stock-form></app-stock-form>
+      </ion-card-content>
+    </ion-card>
+    <ion-list lines="none">
+      <ion-list-header>
+        <ion-label>Your Stock List</ion-label>
+      </ion-list-header>
+      <app-stock-table></app-stock-table>
+    </ion-list>
+</ion-content>

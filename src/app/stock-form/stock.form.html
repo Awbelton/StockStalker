@@ -1,0 +1,47 @@
+<ion-content class="stockForm">
+    <form [formGroup]="stockForm" (ngSubmit)="onSubmit()">
+            <ion-list>
+                    <ion-item>
+                        <ion-label position="stacked" color="primary">Symbol</ion-label>
+                        <ion-input formControlName="symbol" name="symbol" type="text" autocapitalize="off" required></ion-input>
+                    </ion-item>
+
+                    <div *ngIf="submitted && f.symbol.errors" class="invalid-feedback">
+                        <ion-text color="danger">
+                            <p className="ion-padding-start">
+                                Symbol is required
+                            </p>
+                        </ion-text>
+                    </div>
+
+                    <ion-item>
+                        <ion-label position="stacked" color="primary">Stock Frequency</ion-label>
+                        <ion-select placeholder="Select Info" formControlName="frequency" name="frequency-select" (change)="onChangeFrequency($event)" [ngClass]="{ 'is-invalid': submitted && f.frequency.errors }" required>
+                            <ion-select-option value="Time Series (1min)">1 min.</ion-select-option>
+                            <ion-select-option value="Time Series (5min)">5 min.</ion-select-option>
+                            <ion-select-option value="Time Series (10min)">10 min.</ion-select-option>
+                            <ion-select-option value="Time Series (30min)">30 min.</ion-select-option>
+                            <ion-select-option value="Time Series (60min)">60 min.</ion-select-option>
+                            <ion-select-option value="Time Series (24hr)">24 hr</ion-select-option>
+                            <ion-select-option *ngFor="let i of frequencies">{{i}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <div *ngIf="submitted && f.frequency.errors" class="invalid-feedback">
+                        <ion-text color="danger">
+                            <div *ngIf="f.frequency.errors?.required">
+                                <p className="ion-padding-start">
+                                    Frequency is required
+                                </p>
+                            </div>
+                        </ion-text>
+                    </div>               
+                </ion-list>
+
+                <ion-row>
+                    <ion-col>
+                        <ion-button type="submit" expand="block">Get Info</ion-button>
+                    </ion-col>
+                </ion-row>
+    </form>
+</ion-content>

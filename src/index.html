@@ -1,25 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
-  <title>Ionic App</title>
+  <title>Stock Stalker - Stalk Your Favorite Stocks</title>
 
-  <base href="/" />
+  <base href="./" />
 
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
-  <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+  <link rel="icon" type="image/png" href="./assets/icon/favicon.png" />
 
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-</head>
 
+  <!-- CSP -->
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' ws: data: gap:;" />
+</head>
 <body>
   <app-root></app-root>
-</body>
 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+  https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDDlyVYNBo3caEBZCux1ibhlVukS22wP90",
+      authDomain: "awb-stock-stalker.firebaseapp.com",
+      databaseURL: "https://awb-stock-stalker.firebaseio.com",
+      projectId: "awb-stock-stalker",
+      storageBucket: "awb-stock-stalker.appspot.com",
+      messagingSenderId: "919631137067",
+      appId: "1:919631137067:web:d9f8d28489144f0253dd6e",
+      measurementId: "G-SB36QWJN1Z"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+</body>
 </html>
