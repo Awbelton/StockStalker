@@ -3,6 +3,7 @@ import { ErrorHandler } from "@angular/core";
 import { ErrorResponse } from "../../models/error";
 import { ApiComponent } from '../../components/api.component';
 import { NgForm, Validators, FormControl, FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { StockTable } from '../stock-table/stock.table';
 
 @Component({
   selector: 'app-stock-form',
@@ -18,6 +19,7 @@ export class StockForm implements OnInit {
     public price;
     public symbol;
     public frequency;
+    public stockTable = new StockTable();
     public frequencies = [ 1, 5, 10, 30, 60, 120, 240 ];
     public symbols: {
         name: string;
@@ -42,7 +44,7 @@ export class StockForm implements OnInit {
     get f() { return this.stockForm.controls; }
     get t() { return this.f.symbols as FormArray; }
 
-    onSubmit() {
+    async onSubmit() {
         this.submitted = true;
 
         // stop here if form is invalid
@@ -56,13 +58,21 @@ export class StockForm implements OnInit {
         this.frequency = this.stockForm.value.frequency;
 
         // display form values on success
-        console.log('SUCCESS!! :-)\n\n' + JSON.stringify(this.stockForm.value, null, 4));
+        console.log('SUCCESS!!\n\n' + JSON.stringify(this.stockForm.value, null, 4));
         console.log(this.symbols);
 
         // call api
-        var res = this.apiCall(this.symbol, this.frequency);
+        this.price = await this.apiCall(this.symbol, this.frequency);
 
-        setTimeout(function(){ console.log(res); }, 1000);     
+        console.log('returned price is', this.price);
+
+        // something went wrong
+        if (this.price <= 0) {
+            // throw error
+        }
+
+        // send to stock-table
+        await this.addToTable(this.symbol, this.price);    
     }
 
     onReset() {
@@ -87,33 +97,11 @@ export class StockForm implements OnInit {
         console.log(e);
     }
 
-    apiCall(sym: string, freq: string) {
+    async apiCall(sym: string, freq: string) {
         return new ApiComponent(sym, freq).getApiData();
     }
 
-/*     getStockInfo(symbol, frequency) {
-        console.log("getting stock info!");
-        if (!symbol) {
-            return(Promise.reject(this.normalizeError("Symbol is required.")));
-        }
-        
-        if (!frequency) {
-            return(Promise.reject(this.normalizeError("Frequency is required.")));
-        }
-
-        if (symbol && frequency) {
-            const api = new ApiComponent(symbol, this.request, frequency);
-            this.price = api.getApiData();
-            this.symbol = symbol;
-        }
-    };
-
-    private normalizeError(error: any) : ErrorResponse {
-        this.errorHandler.handleError(error);
-        return({
-            id: "-1",
-            code: "Form Input Error.",
-            message: error
-        });
-    } */
+    async addToTable(sym: string, price: number) {
+        await this.stockTable.addStockData(sym, price);
+    }
 }

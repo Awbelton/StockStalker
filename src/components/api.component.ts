@@ -2,7 +2,6 @@ import { Component, Injectable } from '@angular/core';
 import axios from "axios";
 import { AxiosInstance } from "axios";
 import { ErrorHandler } from "@angular/core";
-import { Stock } from "../models/stock";
 import { ErrorResponse } from "../models/error";
 
 @Component({
@@ -27,12 +26,13 @@ export class ApiComponent {
     price = "0";
     request = "TIME_SERIES_INTRADAY";
 
-    public getApiData() {
-        axios.get(`https://www.alphavantage.co/query?function=${this.request}&symbol=${this.symbol}&interval=1min&apikey=${this.apiKey}`)
-        .then(response => response.data)
-        .then((data) => {
-            this.price = data[this.frequency][Object.keys(data[this.frequency])[0]]["4. close"];
+    public async getApiData() {
+        await axios.get(`https://www.alphavantage.co/query?function=${this.request}&symbol=${this.symbol}&interval=1min&apikey=${this.apiKey}`)
+        .then(async response => response.data)
+        .then(async (data) => {
+            this.price = await data[this.frequency][Object.keys(data[this.frequency])[0]]["4. close"];
             console.log('price:', this.price);
+
             return this.price;
         }).catch((err) => {
             console.log(`${err}`);
