@@ -1,9 +1,9 @@
 <ion-content class="stockTable">
+    <h1>Your Stock List</h1>
     <ion-list>
-        <ion-item>
-            <h2>Finn</h2>
-            <h3>Don't Know What To Do!</h3>
-            <p>I've had a pretty messed up day. If we just...</p>
+        <ion-item *ngFor="let stock of stocks">          
+            <h2>{{ stock.symbol }}</h2>
+            <h3>{{ stock.price }}</h3>
         </ion-item>
     </ion-list>
 </ion-content>

@@ -1,7 +1,8 @@
 export interface Stock {
-    request: string;
+    id: number;
+    request?: string;
     symbol: string;
-    frequency: string;
+    frequency?: string;
     price?: number;
     stocks?: object[]
   }

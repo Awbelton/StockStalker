@@ -21,10 +21,7 @@ export class StockForm implements OnInit {
     public frequency;
     public stockTable = new StockTable();
     public frequencies = [ 1, 5, 10, 30, 60, 120, 240 ];
-    public symbols: {
-        name: string;
-        price: number;
-      }[];
+    public symbols = [];
 
     constructor(private formBuilder: FormBuilder) {}
 
@@ -53,7 +50,7 @@ export class StockForm implements OnInit {
         }
 
         // push into symbols array
-        this.symbols.push(this.stockForm.value.symbol.toUpperCase());
+        //this.symbols.push(this.stockForm.value.symbol.toUpperCase());
         this.symbol = this.stockForm.value.symbol;
         this.frequency = this.stockForm.value.frequency;
 
@@ -67,8 +64,9 @@ export class StockForm implements OnInit {
         console.log('returned price is', this.price);
 
         // something went wrong
-        if (this.price <= 0) {
+        if (await this.price <= 0) {
             // throw error
+            throw console.error('Did not get price...');
         }
 
         // send to stock-table
@@ -98,10 +96,13 @@ export class StockForm implements OnInit {
     }
 
     async apiCall(sym: string, freq: string) {
-        return new ApiComponent(sym, freq).getApiData();
+        return await new ApiComponent(sym, freq).getApiData().then(val => {
+            return val;
+        });
     }
 
     async addToTable(sym: string, price: number) {
+        //this.symbols.push({symbol: sym, price: price});
         await this.stockTable.addStockData(sym, price);
     }
 }

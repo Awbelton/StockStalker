@@ -13,7 +13,6 @@ import { ErrorResponse } from "../models/error";
 })
 
 export class ApiComponent {
-    private axiosClient: AxiosInstance;
     private errorHandler: ErrorHandler;
 
     constructor (
@@ -23,23 +22,21 @@ export class ApiComponent {
     ) {}
 
     apiKey = "W4A7ACAND9TT2UTS";
-    price = "0";
     request = "TIME_SERIES_INTRADAY";
 
     public async getApiData() {
+        var price = 0;
         await axios.get(`https://www.alphavantage.co/query?function=${this.request}&symbol=${this.symbol}&interval=1min&apikey=${this.apiKey}`)
         .then(async response => response.data)
         .then(async (data) => {
-            this.price = await data[this.frequency][Object.keys(data[this.frequency])[0]]["4. close"];
-            console.log('price:', this.price);
-
-            return this.price;
+            price = await data[this.frequency][Object.keys(data[this.frequency])[0]]["4. close"];
+            console.log('price:', price);
         }).catch((err) => {
             console.log(`${err}`);
             return(Promise.reject(this.normalizeError(err)));
         });
 
-        return 0;
+        return price;
     }
 
     private normalizeError(error: any) : ErrorResponse {
